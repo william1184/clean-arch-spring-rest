@@ -7,6 +7,7 @@ import br.com.will.io.cleanarchspringrest.core.utils.TextUtils;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -27,11 +28,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class CustomExceptionHandler extends ResponseEntityExceptionHandler  {
 
+    public static final String MENSAGEM_CAMPOS_INVALIDOS = "Campos invalidos";
+
     @Override
     protected ResponseEntity<Object> handleMissingServletRequestParameter(
         MissingServletRequestParameterException ex, HttpHeaders headers,
         HttpStatus status, WebRequest request) {
-        String error = ex.getParameterName() + " parameter is missing";
 
         return ResponseEntity
             .badRequest()
@@ -39,7 +41,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler  {
                 ErrorResponse
                     .builder()
                     .statusCode(HttpStatus.BAD_REQUEST.value())
-                    .mensagem("Campos invalidos")
+                    .mensagem(MENSAGEM_CAMPOS_INVALIDOS)
                     .campos(
                         List.of(
                             CampoError
@@ -90,7 +92,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler  {
                 ErrorResponse
                     .builder()
                     .statusCode(HttpStatus.BAD_REQUEST.value())
-                    .mensagem("Campos invalidos")
+                    .mensagem(MENSAGEM_CAMPOS_INVALIDOS)
                     .campos(campos)
                     .build());
     }
@@ -98,6 +100,9 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler  {
     @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
     public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
         MethodArgumentTypeMismatchException ex, WebRequest request) {
+        var name = Optional.ofNullable(ex.getRequiredType()).
+            map(Class::getName)
+            .orElse("NAME_NOT_FOUND");
 
         return ResponseEntity
             .badRequest()
@@ -105,14 +110,14 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler  {
                 ErrorResponse
                     .builder()
                     .statusCode(HttpStatus.BAD_REQUEST.value())
-                    .mensagem("Campos invalidos")
+                    .mensagem(MENSAGEM_CAMPOS_INVALIDOS)
                     .campos(List.of(
                         CampoError
                             .builder()
                             .campo(TextUtils.toSnakeCase(ex.getName()))
                             .mensagem(
                                 MessageFormat.format(
-                                    "O campo deveria ser do tipo {0}",  ex.getRequiredType().getName()
+                                    "O campo deveria ser do tipo {0}",  name
                                 )
                             )
                             .build()
@@ -144,7 +149,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler  {
                 ErrorResponse
                     .builder()
                     .statusCode(HttpStatus.BAD_REQUEST.value())
-                    .mensagem("Campos invalidos")
+                    .mensagem(MENSAGEM_CAMPOS_INVALIDOS)
                     .campos(campos)
                     .build());
     }
