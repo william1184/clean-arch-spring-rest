@@ -8,9 +8,14 @@ import lombok.Getter;
 @Getter
 public class Empresa {
 
+    private Long identificador;
     private final Cnpj cnpj;
     private final String nome;
     private final String nomeFantasia;
     private final DataFundacao dataFundacao;
     private final List<Endereco> enderecos;
+
+    public void adicionarIdentificador(Long identificador) {
+        this.identificador = identificador;
+    }
 }

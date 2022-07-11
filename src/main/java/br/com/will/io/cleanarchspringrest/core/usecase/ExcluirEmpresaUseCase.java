@@ -1,5 +1,6 @@
 package br.com.will.io.cleanarchspringrest.core.usecase;
 
+import br.com.will.io.cleanarchspringrest.core.exceptions.EmpresaNaoEncontradaException;
 import br.com.will.io.cleanarchspringrest.core.ports.EmpresaRepositoryPort;
 import br.com.will.io.cleanarchspringrest.core.domain.Empresa;
 import java.util.Optional;
@@ -16,12 +17,13 @@ public class ExcluirEmpresaUseCase {
         log.debug("INICIO - ExcluirEmpresaUseCase {}", documento);
         var doc = Long.parseLong(documento);
 
-        var empresa = empresaRepositoryPort.buscarPorDocumento(doc);
+        var empresa = empresaRepositoryPort.buscarPorDocumento(doc)
+            .orElseThrow(EmpresaNaoEncontradaException::new);
 
         empresaRepositoryPort.excluir(doc);
 
         log.debug("FIM - ExcluirEmpresaUseCase {}", empresa);
 
-        return empresa;
+        return Optional.of(empresa);
     }
 }

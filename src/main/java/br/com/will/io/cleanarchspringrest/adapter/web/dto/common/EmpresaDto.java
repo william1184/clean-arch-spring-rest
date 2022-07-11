@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 @SuperBuilder
 @Getter
 public class EmpresaDto {
+
   @CNPJ
   private final String cnpj;
 

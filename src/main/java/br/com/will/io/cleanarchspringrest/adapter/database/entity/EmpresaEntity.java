@@ -1,8 +1,11 @@
 package br.com.will.io.cleanarchspringrest.adapter.database.entity;
 
+import br.com.will.io.cleanarchspringrest.core.domain.Cnpj;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +23,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 public class EmpresaEntity {
 
   @Id
+  @GeneratedValue
+  private Long id;
+
+  @Column(unique = true)
   private Long cnpj;
 
   @Setter
@@ -36,4 +43,8 @@ public class EmpresaEntity {
 
   @LastModifiedDate
   private LocalDateTime dataUltimaAtualizacao;
+
+  public String getCnpjComoString() {
+    return Cnpj.transformarCnpjLongParaString(this.cnpj);
+  }
 }

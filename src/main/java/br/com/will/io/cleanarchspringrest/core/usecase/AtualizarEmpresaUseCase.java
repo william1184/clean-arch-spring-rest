@@ -21,13 +21,14 @@ public class AtualizarEmpresaUseCase {
 
         var empresaAlterada = Empresa
             .builder()
+            .identificador(existente.getIdentificador())
             .nomeFantasia(alteracaoEmpresa.getNomeFantasia())
             .nome(alteracaoEmpresa.getNome())
             .cnpj(existente.getCnpj())
-            .dataFundacao(alteracaoEmpresa.getDataFundacao())
+            .dataFundacao(existente.getDataFundacao())
             .build();
 
-        var empresaAtualizada = empresaRepositoryPort.salvarAtualizar(empresaAlterada);
+        var empresaAtualizada = empresaRepositoryPort.novaEmpresa(empresaAlterada);
 
         log.debug("FIM - Atualizar empresa usecase {}", empresaAtualizada);
         return empresaAtualizada;

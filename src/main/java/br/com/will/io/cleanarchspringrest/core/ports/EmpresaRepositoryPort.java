@@ -6,9 +6,10 @@ import java.util.Optional;
 
 public interface EmpresaRepositoryPort {
 
-  public Optional<Empresa> salvarAtualizar(Empresa empresa);
-  public Optional<Empresa> buscarPorDocumento(long documento);
-  public Paginado<Empresa> buscarTodos(int pagina, int quantidade);
-  public void excluir(long documento);
+  Optional<Empresa> novaEmpresa(Empresa empresa);
+  Optional<Empresa> atualizarEmpresa(Empresa empresa);
+  Optional<Empresa> buscarPorDocumento(long documento);
+  Paginado<Empresa> buscarTodos(int pagina, int quantidade);
+  Optional<Empresa> excluir(long documento);
 
 }

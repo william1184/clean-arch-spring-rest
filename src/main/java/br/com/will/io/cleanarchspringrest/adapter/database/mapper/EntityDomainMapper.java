@@ -15,7 +15,8 @@ public class EntityDomainMapper {
   public EmpresaEntity toEntity(Empresa empresa){
     return EmpresaEntity
         .builder()
-        .cnpj(empresa.getCnpj().getCnpjComoId())
+        .id(empresa.getIdentificador())
+        .cnpj(empresa.getCnpj().getNumeros())
         .nome(empresa.getNome())
         .nomeFantasia(empresa.getNomeFantasia())
         .dataFundacao(empresa.getDataFundacao().getData())
@@ -25,9 +26,10 @@ public class EntityDomainMapper {
   public Empresa toDomain(EmpresaEntity entity){
     return Empresa
         .builder()
+        .identificador(entity.getId())
         .cnpj(Cnpj.
             builder()
-            .numeros(String.valueOf(entity.getCnpj()))
+            .numeros(entity.getCnpj())
             .build())
         .nome(entity.getNome())
         .nomeFantasia(entity.getNomeFantasia())
@@ -48,6 +50,8 @@ public class EntityDomainMapper {
         .items(items)
         .totalPaginas(entities.getTotalPages())
         .itensTotais(entities.getTotalElements())
+        .itensPorPagina(entities.getPageable().getPageSize())
+        .pagina(entities.getNumber()+1)
         .build();
   }
 

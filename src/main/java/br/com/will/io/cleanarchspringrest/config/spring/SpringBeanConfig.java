@@ -3,7 +3,7 @@ package br.com.will.io.cleanarchspringrest.config.spring;
 import br.com.will.io.cleanarchspringrest.core.ports.EmpresaRepositoryPort;
 import br.com.will.io.cleanarchspringrest.core.usecase.AtualizarEmpresaUseCase;
 import br.com.will.io.cleanarchspringrest.core.usecase.BuscarEmpresaPorDocumentoUseCase;
-import br.com.will.io.cleanarchspringrest.core.usecase.CriacaoNovaEmpresaUseCase;
+import br.com.will.io.cleanarchspringrest.core.usecase.NovaEmpresaUseCase;
 import br.com.will.io.cleanarchspringrest.core.usecase.ExcluirEmpresaUseCase;
 import br.com.will.io.cleanarchspringrest.core.usecase.ListarEmpresasUseCase;
 import org.springframework.context.annotation.Bean;
@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 public class SpringBeanConfig {
 
     @Bean
-    CriacaoNovaEmpresaUseCase criacaoNovaEmpresaUseCase(EmpresaRepositoryPort empresaRepositoryPort){
-        return new CriacaoNovaEmpresaUseCase(empresaRepositoryPort);
+    NovaEmpresaUseCase criacaoNovaEmpresaUseCase(EmpresaRepositoryPort empresaRepositoryPort){
+        return new NovaEmpresaUseCase(empresaRepositoryPort);
     }
 
     @Bean

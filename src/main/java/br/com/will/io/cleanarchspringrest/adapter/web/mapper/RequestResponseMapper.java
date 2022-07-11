@@ -11,6 +11,7 @@ import br.com.will.io.cleanarchspringrest.core.domain.Empresa;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.stream.Collectors;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +23,7 @@ public class RequestResponseMapper {
                 .cnpj(
                     Cnpj
                         .builder()
-                        .numeros(request.getCnpj())
+                        .numeros(Long.valueOf(StringUtils.getDigits(request.getCnpj())))
                         .build())
                 .nome(request.getNomeEmpresa())
                 .nomeFantasia(request.getNomeFantasia())
@@ -38,7 +39,7 @@ public class RequestResponseMapper {
     private EmpresaDto toResponseDto(Empresa domain){
         return EmpresaRequest
             .builder()
-            .cnpj(domain.getCnpj().getNumeros())
+            .cnpj(domain.getCnpj().getDocumento())
             .nomeEmpresa(domain.getNome())
             .nomeFantasia(domain.getNomeFantasia())
             .dataFundacao(domain.getDataFundacao().getDataFormatadaString())

@@ -5,7 +5,7 @@ import br.com.will.io.cleanarchspringrest.adapter.web.dto.common.ResponseDto;
 import br.com.will.io.cleanarchspringrest.adapter.web.mapper.RequestResponseMapper;
 import br.com.will.io.cleanarchspringrest.core.usecase.AtualizarEmpresaUseCase;
 import br.com.will.io.cleanarchspringrest.core.usecase.BuscarEmpresaPorDocumentoUseCase;
-import br.com.will.io.cleanarchspringrest.core.usecase.CriacaoNovaEmpresaUseCase;
+import br.com.will.io.cleanarchspringrest.core.usecase.NovaEmpresaUseCase;
 import br.com.will.io.cleanarchspringrest.core.usecase.ExcluirEmpresaUseCase;
 import br.com.will.io.cleanarchspringrest.core.domain.Empresa;
 import br.com.will.io.cleanarchspringrest.core.usecase.ListarEmpresasUseCase;
@@ -35,7 +35,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class EmpresaController {
 
     private final RequestResponseMapper mapper;
-    private final CriacaoNovaEmpresaUseCase criacaoNovaEmpresaUseCase;
+    private final NovaEmpresaUseCase novaEmpresaUseCase;
     private final AtualizarEmpresaUseCase atualizarEmpresaUseCase;
     private final BuscarEmpresaPorDocumentoUseCase buscarEmpresaPorDocumentoUseCase;
     private final ListarEmpresasUseCase listarEmpresasUseCase;
@@ -45,7 +45,7 @@ public class EmpresaController {
     public ResponseEntity<ResponseDto> criarEmpresa(@Validated @RequestBody EmpresaRequest request){
         log.info("INICIO - Criação nova empresa: {}", request);
 
-        var domain = criacaoNovaEmpresaUseCase.execute(mapper.toDomain(request));
+        var domain = novaEmpresaUseCase.execute(mapper.toDomain(request));
 
         var response = domain.map(mapper::toResponse).orElseThrow();
 
@@ -82,7 +82,7 @@ public class EmpresaController {
     ){
         log.info("INICIO - Buscar Empresa por documento: documento : {}", documento);
 
-        var empresasDomain = buscarEmpresaPorDocumentoUseCase.porDocumento(documento);
+        var empresasDomain = buscarEmpresaPorDocumentoUseCase.execute(documento);
 
         var response = empresasDomain.map(mapper::toResponse).orElseThrow();
 
